@@ -1,0 +1,87 @@
+<!DOCTYPE html> 
+<html> 
+<head>
+<title>Random</title>
+<style>
+.image-container{
+	height: 500px;
+	width: 500px;
+	background: transparent;
+	position:fixed;
+}
+
+.image-container img{
+	height: 100%;
+	width: 100%;
+}
+</style>
+</head>
+<body>
+	<div id="image-container" class="image-container">
+	
+	</div>
+	<script>
+		let color = "FFFFFF"
+
+		setInterval(()=>{
+			setBackgroundColor()
+		},50)
+
+		setInterval(()=>{
+			setImage()
+		},500)
+
+		function setImage(){
+			let container = document.getElementById("image-container")
+			let image = document.getElementById("image")
+			if(image)
+				container.removeChild(image)
+			image = document.createElement("img")
+			let xhr = new XMLHttpRequest();
+			xhr.open('GET', "https://source.unsplash.com/random");
+			xhr.send();
+			image.src = "https://source.unsplash.com/random"
+			image.id="image"
+			let rand = randomNumber(300,600)
+			let randomRadious = randomNumber(5,50)
+			container.style.width = rand + 'px'
+			container.style.height = rand + 'px'
+			container.style.borderRadius = randomRadious + "%"
+			container.style.top = randomNumber(0,200) + "px"
+			container.style.left = randomNumber(0,600) + "px"
+			container.appendChild(image)
+
+		}
+
+		function setBackgroundColor(){
+			
+			color = generateRandomColor()
+			document.body.style="background: #" + color
+		}
+		
+		function generateRandomColor(){
+			let colorBits = [
+				generateHexadecimalBit(),
+				generateHexadecimalBit(),
+				generateHexadecimalBit(),
+				generateHexadecimalBit(),
+				generateHexadecimalBit(),
+				generateHexadecimalBit()
+			]
+			return colorBits.join("").replace(/,/g,"")
+		}
+
+
+		function generateHexadecimalBit(){
+			let bits = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F']
+			let randomIndex = randomNumber(0,16)
+			return bits[randomIndex]
+
+		}
+
+		function randomNumber(min, max) { 
+    			return Math.floor(Math.random() * (max - min) + min);
+		} 
+	</script>
+</body>
+</html>
